@@ -31,6 +31,16 @@ public class TaskManagerService {
         return mapper.toResponse(savedTask);
     }
 
+    public TaskResponse markTaskAsCompleted(String id) {
+        Task todo = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskDoesNotExistException("Task does not exist"));
+
+        todo.setCompleted(true);
+
+        Task updatedTask = taskRepository.save(todo);
+        return mapper.toResponse(updatedTask);
+    }
+
     public List<TaskResponse> getAllTasks() {
         return taskRepository.findAll()
                 .stream()
