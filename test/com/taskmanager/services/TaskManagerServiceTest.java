@@ -21,10 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TaskManagerServiceTest {
 
     @Autowired
-    private TaskManagerService service;
-
-    @Autowired
     private TaskRepository taskRepository;
+
     @Autowired
     private TaskManagerService taskManagerService;
 
@@ -39,7 +37,7 @@ public class TaskManagerServiceTest {
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
 
-        TaskResponse response = service.createTask(request);
+        TaskResponse response = taskManagerService.createTask(request);
 
         assertEquals("Learn Java", response.getTitle());
         assertFalse(response.isCompleted());
@@ -51,9 +49,9 @@ public class TaskManagerServiceTest {
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
 
-        TaskResponse response = service.createTask(request);
+        TaskResponse response = taskManagerService.createTask(request);
 
-        TaskResponse updatedTask = service.markTaskAsCompleted(response.getId());
+        TaskResponse updatedTask = taskManagerService.markTaskAsCompleted(response.getId());
 
         assertTrue(updatedTask.isCompleted());
     }
@@ -63,13 +61,13 @@ public class TaskManagerServiceTest {
         CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
-        service.createTask(request);
+        taskManagerService.createTask(request);
 
         CreateTaskRequest duplicate = new CreateTaskRequest();
         duplicate.setTitle("Learn Java");
         duplicate.setDescription("Strings, OOP, Layered Architecture");
 
-        assertThrows(TaskAlreadyExistsException.class, () -> service.createTask(duplicate));
+        assertThrows(TaskAlreadyExistsException.class, () -> taskManagerService.createTask(duplicate));
     }
 
     @Test
@@ -77,12 +75,12 @@ public class TaskManagerServiceTest {
         CreateTaskRequest requestOne = new CreateTaskRequest();
         requestOne.setTitle("Learn Java");
         requestOne.setDescription("Strings, OOP, Layered Architecture");
-        service.createTask(requestOne);
+        taskManagerService.createTask(requestOne);
 
         CreateTaskRequest requestTwo = new CreateTaskRequest();
         requestTwo.setTitle("Learn Python");
         requestTwo.setDescription("Collections, Django, Files and Records");
-        service.createTask(requestTwo);
+        taskManagerService.createTask(requestTwo);
 
         List<Task> allTasks = taskRepository.findAll();
         assertEquals(2, allTasks.size());
@@ -94,7 +92,7 @@ public class TaskManagerServiceTest {
         request.setTitle("");
         request.setDescription("Strings, OOP, Layered Architecture");
 
-        assertThrows(TitleCannotBeBlankException.class, () -> service.createTask(request));
+        assertThrows(TitleCannotBeBlankException.class, () -> taskManagerService.createTask(request));
     }
 
     @Test
@@ -102,12 +100,12 @@ public class TaskManagerServiceTest {
         CreateTaskRequest requestOne = new CreateTaskRequest();
         requestOne.setTitle("Learn Java");
         requestOne.setDescription("Strings, OOP, Layered Architecture");
-        service.createTask(requestOne);
+        taskManagerService.createTask(requestOne);
 
         CreateTaskRequest requestTwo = new CreateTaskRequest();
         requestTwo.setTitle("Learn Python");
         requestTwo.setDescription("Collections, Django, Files and Records");
-        service.createTask(requestTwo);
+        taskManagerService.createTask(requestTwo);
 
         List<TaskResponse> allTasks = taskManagerService.getAllTasks();
         assertEquals(2, allTasks.size());
@@ -119,14 +117,14 @@ public class TaskManagerServiceTest {
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
 
-        TaskResponse createdTask = service.createTask(request);
+        TaskResponse createdTask = taskManagerService.createTask(request);
 
         UpdateTaskRequest updateTaskRequest = new UpdateTaskRequest();
         updateTaskRequest.setTitle("Learn Java");
         updateTaskRequest.setDescription("Maven, Spring boot, Spring security");
         updateTaskRequest.setCompleted(true);
 
-        TaskResponse updatedTaskResponse = service.updateTask(createdTask.getId(), updateTaskRequest);
+        TaskResponse updatedTaskResponse = taskManagerService.updateTask(createdTask.getId(), updateTaskRequest);
 
         assertEquals("Learn Java", updatedTaskResponse.getTitle());
         assertEquals("Maven, Spring boot, Spring security",  updatedTaskResponse.getDescription());
@@ -139,13 +137,13 @@ public class TaskManagerServiceTest {
         requestOne.setTitle("Learn Java");
         requestOne.setDescription("Strings, OOP, Layered Architecture");
 
-        TaskResponse responseOne = service.createTask(requestOne);
+        TaskResponse responseOne = taskManagerService.createTask(requestOne);
 
         CreateTaskRequest requestTwo = new CreateTaskRequest();
         requestTwo.setTitle("Learn Python");
         requestTwo.setDescription("Collections, Django, Files and Records");
 
-        TaskResponse responseTwo = service.createTask(requestTwo);
+        TaskResponse responseTwo = taskManagerService.createTask(requestTwo);
 
         taskManagerService.deleteTask(responseOne.getId());
 
@@ -158,7 +156,7 @@ public class TaskManagerServiceTest {
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
 
-        TaskResponse response = service.createTask(request);
+        TaskResponse response = taskManagerService.createTask(request);
 
         taskManagerService.deleteTask(response.getId());
 
