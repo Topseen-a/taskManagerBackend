@@ -57,7 +57,7 @@ public class TaskManagerServiceTest {
     }
 
     @Test
-    public void testThatAnExistingTaskIsCreatedThrowsAnError() {
+    public void testThatAnExistingTaskIsCreatedThrowsException() {
         CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
@@ -87,7 +87,7 @@ public class TaskManagerServiceTest {
     }
 
     @Test
-    public void testThatTaskCreatedWithoutA_titleThrowsAnError() {
+    public void testThatTaskCreatedWithoutA_titleThrowsException() {
         CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("");
         request.setDescription("Strings, OOP, Layered Architecture");
@@ -151,7 +151,7 @@ public class TaskManagerServiceTest {
     }
 
     @Test
-    public void testThatDeletingA_taskThatDoesNotExistThrowsAnError() {
+    public void testThatDeletingA_taskThatDoesNotExistThrowsException() {
         CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("Learn Java");
         request.setDescription("Strings, OOP, Layered Architecture");
